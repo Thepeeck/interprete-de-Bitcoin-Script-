@@ -88,8 +88,8 @@ public class OpcodesFase1 {
         @Override
         public void ejecutar(ContextoEjecucion ctx) {
             PilaScript pila     = ctx.getPilaP();
-            byte[] clavePublica = pila.sacar();   // tope = clave pública
-            byte[] firma        = pila.sacar();   // segundo = firma
+            byte[] clavePublica = pila.sacar();   
+            byte[] firma        = pila.sacar();  
             boolean valida      = cripto.verificarFirma(firma, clavePublica);
             pila.empujarBooleano(valida);
             ctx.trazar("OP_CHECKSIG", valida ? "firma válida ✓" : "firma inválida ✗");

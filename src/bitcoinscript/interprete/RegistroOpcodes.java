@@ -8,22 +8,7 @@ import bitcoinscript.excepcion.ExcepcionScript;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Registro central de opcodes para Fase 1.
- *
- * Estructura: HashMap<String, CodigoOperacion>
- *   - Búsqueda en O(1) por nombre de opcode
- *   - Ideal para catálogo pequeño (~15 entradas en Fase 1)
- *
- * Opcodes registrados en Fase 1:
- *   OP_0, OP_1 .. OP_16   (literales numéricos)
- *   OP_DUP                (duplicar tope)
- *   OP_DROP               (eliminar tope)
- *   OP_EQUAL              (comparar igualdad)
- *   OP_EQUALVERIFY        (comparar o fallar)
- *   OP_HASH160            (hash criptográfico mock)
- *   OP_CHECKSIG           (firma mock)
- */
+
 public class RegistroOpcodes {
 
     private final Map<String, CodigoOperacion> registro;
@@ -61,10 +46,6 @@ public class RegistroOpcodes {
         registro.put("OP_CHECKSIG",    new OpcodesFase1.OpVerificarFirma(cripto));
     }
 
-    /**
-     * Devuelve el opcode por nombre en O(1).
-     * @throws ExcepcionScript si el opcode no existe en el registro.
-     */
     public CodigoOperacion obtener(String nombre) {
         CodigoOperacion op = registro.get(nombre.toUpperCase());
         if (op == null) {
