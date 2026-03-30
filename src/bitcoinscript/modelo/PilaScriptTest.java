@@ -15,7 +15,7 @@ public class PilaScriptTest {
     }
 
     @Test
-    void testEmpujarYSacarBasico() {
+    void testEmpujarYSacar() {
         pila.empujar(new byte[]{10});
         assertArrayEquals(new byte[]{10}, pila.sacar());
     }
