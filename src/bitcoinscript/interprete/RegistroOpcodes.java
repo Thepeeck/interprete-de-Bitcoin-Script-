@@ -3,7 +3,7 @@ package bitcoinscript.interprete;
 import bitcoinscript.codigos.*;
 import bitcoinscript.cripto.ServicioCriptografico;
 import bitcoinscript.excepcion.ExcepcionScript;
-
+import bitcoinscript.modelo.ContextoEjecucion;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,15 +17,34 @@ public class RegistroOpcodes {
         registrarFase2(); // Nuevo llamado
     }
 
-    private void registrarFase1() {
+private void registrarFase1() {
         ServicioCriptografico cripto = new ServicioCriptografico();
-        registro.put("OP_0", ctx -> { ctx.getPilaP().empujar(new byte[0]); ctx.trazar("OP_0"); });
+
+        // Corrección: Usar clases anónimas en lugar de lambdas
+        registro.put("OP_0", new CodigoOperacion() {
+            @Override
+            public void ejecutar(ContextoEjecucion ctx) { 
+                ctx.getPilaP().empujar(new byte[0]); 
+                ctx.trazar("OP_0"); 
+            }
+            @Override
+            public String getNombre() { return "OP_0"; }
+        });
+        
         registro.put("OP_FALSE", registro.get("OP_0"));
 
         for (int i = 1; i <= 16; i++) {
             final byte val = (byte) i;
             final String nombre = "OP_" + i;
-            registro.put(nombre, ctx -> { ctx.getPilaP().empujar(new byte[]{val}); ctx.trazar(nombre); });
+            registro.put(nombre, new CodigoOperacion() {
+                @Override
+                public void ejecutar(ContextoEjecucion ctx) { 
+                    ctx.getPilaP().empujar(new byte[]{val}); 
+                    ctx.trazar(nombre); 
+                }
+                @Override
+                public String getNombre() { return nombre; }
+            });
         }
         registro.put("OP_TRUE", registro.get("OP_1"));
 
